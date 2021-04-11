@@ -86,7 +86,7 @@ def download_choosen_format(update,CallbackContext):
         
         with video.send() as files:
             for f in files:
-                update.send_document(chat_id=chat_id,document=open(f, 'rb'),parse_mode=ParseMode.HTML)
+                update.send_document(document=open(f, 'rb'),parse_mode=ParseMode.HTML)
                    
 
         #time.sleep(3)
