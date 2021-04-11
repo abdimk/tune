@@ -8,9 +8,6 @@ from contextlib import contextmanager
 
 from telegram import InlineKeyboardButton
 
-class BigFile(Exception):
-    pass
-
 class BadLink(Exception):
     pass
 
@@ -68,20 +65,18 @@ class Video:
                 self.file_name = line[24:] # name of the file
 
     def check_dimension(self):
-        if os.path.getsize(self.file_name) > 50 * 1024 * 1023:
-            raise BigFile
+        #if os.path.getsize(self.file_name) > 50 * 1024 * 1023:
+        #pass
+        os.system('split -b 49M "{0}" "{1}"'.format(self.file_name, self.file_name))
+        os.remove(self.file_name)
+        return glob(escape(self.file_name) + '*')
 
-            
-#            os.system('split -b 49M "{0}" "{1}"'.format(self.file_name, self.file_name))
-#            os.remove(self.file_name)
-#        return glob(escape(self.file_name) + '*')
-
-#    @contextmanager
-#    def send(self):
-#        files = self.check_dimension() # split if size >= 50MB
-#        yield files
-#        for f in files: #removing old files
-#            os.remove(f)
+    @contextmanager
+    def send(self):
+        files = self.check_dimension() # split if size >= 50MB
+        yield files
+        for f in files: #removing old files
+            os.remove(f)
 
 
 
@@ -90,7 +85,6 @@ class Video:
 #__________________________OLD STUFFS, TOUCH CAREFULLY__________________________
 
 # this is the soft-split version, require avconv, but the audio isn't synchronized, avconv's problems :(
-
 '''
 def get_duration(filepath): # get duration in seconds
     cmd = "avconv -i %s" % filepath
