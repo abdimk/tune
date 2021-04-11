@@ -13,7 +13,7 @@ from telegram.error import BadRequest
 PORT = int(os.environ.get('PORT', 5000))
 
 #from vid_utils import Video, BadLink
-from vid_utils import Video, BadLink,BigFile
+from vid_utils import Video, BadLink
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -67,26 +67,23 @@ def download_choosen_format(update,CallbackContext):
     if query =='3' or query =='1' or query =='2':
         pass
     else:
-        if BigFile:
-            updater.bot.edit_message_text(text="*sorry* The file is too Big it must be less that 50MB. ",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
-        else:
-            resolution_code, link = query.data.split(' ', 1)
-            b1 = updater.bot.edit_message_text(text="Making *Http* request...",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
-            time.sleep(2)
-            b = updater.bot.edit_message_text(text="```Downloading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
-            time.sleep(2)
-            a = updater.bot.edit_message_text(text="```Uploading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
+        resolution_code, link = query.data.split(' ', 1)
+        b1 =  b = updater.bot.edit_message_text(text="Making *Http* request...",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
+        time.sleep(2)
+        b = updater.bot.edit_message_text(text="```Downloading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
+        time.sleep(2)
+        a = updater.bot.edit_message_text(text="```Uploading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
 
 
-            video = Video(link)
-            video.download(resolution_code)
+        video = Video(link)
+        video.download(resolution_code)
 
-            with video.send() as files:
-                for f in files:
-                    updater.bot.send_document(chat_id=query.message.chat_id,document=open(f, 'rb'),caption=f'<b>Title</b>: {t1}\n<b>Duration</b>:<code>{d1}</code>\n<b>Views</b>:<code>{v1}</code>',parse_mode=ParseMode.HTML)
+        with video.send() as files:
+            for f in files:
+                updater.bot.send_document(chat_id=query.message.chat_id,document=open(f, 'rb'),caption=f'<b>Title</b>: {t1}\n<b>Duration</b>:<code>{d1}</code>\n<b>Views</b>:<code>{v1}</code>',parse_mode=ParseMode.HTML)
 
-            time.sleep(2)
-            a.delete()
+        time.sleep(2)
+        a.delete()
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
