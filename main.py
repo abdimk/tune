@@ -23,14 +23,14 @@ def get_format(update, context):
     keyboard = [
         [
             #InlineKeyboardButton("perivious", callback_data='1'),
-            InlineKeyboardButton("About 🧩", url='https://t.me/Riddel'),
+            InlineKeyboardButton("About 🧩", url='https://t.me/ytMDBotCH'),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     pm = update.message.text
     first_name = update.message.chat.first_name
     if pm.lower() == "/start":
-        update.message.reply_text(f'Hello <b>{first_name}</b> this {context.bot.first_name}music bot it will help you to download musics with the best quality available as fast as possilbe. use @vid for inline',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
+        update.message.reply_text(f'Hello <b>{first_name}</b> \n{context.bot.first_name}is a bot that helps you to download YouTube videos. It has a built-in YouTube <b>converter</b> to convert video to mp3, mp4, webm and web audio. This tool supports multiple audio and video formats. use <code>@vid</code> to search on YouTube',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
     else:
         try:
             video = Video(update.message.text, init_keyboard=True)
