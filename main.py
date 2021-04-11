@@ -143,7 +143,7 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start",Filters.text,start))
+    dp.add_handler(CommandHandler("start",start))
     dp.add_handler(CallbackQueryHandler(download_choosen_format))
     dp.add_handler(CallbackQueryHandler(button))
     dp.add_handler(CommandHandler("help", help))
