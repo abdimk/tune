@@ -23,7 +23,7 @@ def get_format(update, context):
     keyboard = [
         [
             #InlineKeyboardButton("perivious", callback_data='1'),
-            InlineKeyboardButton("Join 🧩", url='https://t.me/Tuneln'),
+            InlineKeyboardButton("Updates 🧩", url='https://t.me/Tuneln'),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
