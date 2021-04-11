@@ -70,6 +70,8 @@ class Video:
     def check_dimension(self):
         if os.path.getsize(self.file_name) > 50 * 1024 * 1023:
             raise BigFile
+
+            
 #            os.system('split -b 49M "{0}" "{1}"'.format(self.file_name, self.file_name))
 #            os.remove(self.file_name)
 #        return glob(escape(self.file_name) + '*')
@@ -88,6 +90,7 @@ class Video:
 #__________________________OLD STUFFS, TOUCH CAREFULLY__________________________
 
 # this is the soft-split version, require avconv, but the audio isn't synchronized, avconv's problems :(
+
 '''
 def get_duration(filepath): # get duration in seconds
     cmd = "avconv -i %s" % filepath
