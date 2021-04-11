@@ -3,7 +3,16 @@ from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,Upda
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import os
+import logging
+from youtubesearchpython import SearchVideos
+import json
+import time
+from telegram import InlineKeyboardMarkup,Update,ParseMode,InlineKeyboardButton
+from telegram.ext import Updater, CallbackQueryHandler, MessageHandler, Filters
+from telegram.ext import CallbackContext,CommandHandler
+from telegram.error import BadRequest
+from vid_utils import Video,BadLink
+#from youtube_search import YoutubeSearch
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 PORT = int(os.environ.get('PORT', 5000))
@@ -18,6 +27,7 @@ TOKEN = '1711329030:AAERyXxw0UnzNTCLAf-EkT9UZ4cWvt01ayM'
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update: Update, context: CallbackContext) -> None:
+    logger.info("from {}: {}".format(update.message.chat_id, update.message.text)) # "history"
     keyboard = [
         [
             #InlineKeyboardButton("perivious", callback_data='1'),
@@ -27,9 +37,43 @@ def start(update: Update, context: CallbackContext) -> None:
 
     reply_markup = InlineKeyboardMarkup(keyboard)
     first_name = update.message.chat.first_name
-    update.message.reply_text(f'''Hello <b>{first_name}</b> This {context.bot.first_name} bot it will help you to <b>download</b> musics with the best quality available as fast as possilbe. use @vid for inline''',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
+    #update.message.reply_text(f'''Hello <b>{first_name}</b> This {context.bot.first_name} bot it will help you to <b>download</b> musics with the best quality available as fast as possilbe. use @vid for inline''',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
     global global_user
     global_user = str(first_name)
+    pm = update.message.text
+    first_name = update.message.chat.first_name
+    if pm.lower() == "/start":
+        update.message.reply_text(f'''Hello <b>{first_name}</b> This {context.bot.first_name} bot it will help you to <b>download</b> musics with the best quality available as fast as possilbe. use @vid for inline''',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
+    else:
+        try:
+            video = Video(update.message.text, init_keyboard=True)
+        except BadLink:
+            update.message.reply_text("Please send me the link from @vid")
+        else:
+            msg = str(update.message.text)
+            search = SearchVideos(msg, offset = 1, mode = "json", max_results = 1)
+            test = search.result()
+            p = json.loads(test)
+            q = p.get('search_result')
+            msg = str(update.message.text)
+            search = SearchVideos(msg, offset = 1, mode = "json", max_results = 1)
+            test = search.result()
+            p = json.loads(test)
+            q = p.get('search_result')
+            global t1
+            t1 = q[0]['title']
+            global d1
+            d1 = q[0]['duration']
+            global v1
+            v1 = q[0]['views']
+            thumbnails = q[0]['thumbnails'][-1]
+            try:
+                update.message.reply_photo(thumbnails)
+            except BadRequest:
+                 pass
+            reply_markup = InlineKeyboardMarkup(video.keyboard)
+            update.message.reply_text(f'Available *formats*:[image]({thumbnails})',reply_markup=reply_markup,parse_mode=ParseMode.MARKDOWN)
+
 def button(update: Update, context: CallbackContext) -> None:
     keyboard = [
         [

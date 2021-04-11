@@ -1,0 +1,3 @@
+python-telegram-bot==12.7
+youtube-search-python
+youtube-dl
