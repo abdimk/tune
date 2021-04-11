@@ -27,7 +27,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
     reply_markup = InlineKeyboardMarkup(keyboard)
     first_name = update.message.chat.first_name
-    update.message.reply_text(f'''Hello <b>{first_name}</b> {context.bot.first_name} was web-based tool that enables user to search information but unlikely the api ended up getting blocked by Google and am(PaperExted) not gonna continue maintaining this bot since it was the best bot that search image with articles rest in peace Botsify we love you!😔''',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
+    update.message.reply_text(f'''Hello <b>{first_name}</b> This {context.bot.first_name} bot it will help you to <b>download</b> musics with the best quality available as fast as possilbe. use @vid for inline''',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
     global global_user
     global_user = str(first_name)
 def button(update: Update, context: CallbackContext) -> None:
@@ -51,7 +51,7 @@ def button(update: Update, context: CallbackContext) -> None:
     query2 = update.callback_query
     if query2.data =='3':
         query2.answer()
-        query2.edit_message_text(text=f'''Hello <b>{global_user}</b>  {context.bot.first_name} was web-based tool that enables user to search information but unlikely the api ended up getting blocked by Google and am(PaperExted) not gonna continue maintaining this bot since it was the best bot that search image with articles rest in peace Botsify we love you!😔''',parse_mode=ParseMode.HTML,reply_markup=reply_markup2)
+        query2.edit_message_text(text=f'''Hello <b>{global_user}</b> This {context.bot.first_name} bot it will help you to <b>download</b> musics with the best quality available as fast as possilbe. use @vid for inline''',parse_mode=ParseMode.HTML,reply_markup=reply_markup2)
     else:
         reply_markup = InlineKeyboardMarkup(keyboard)
         query = update.callback_query
@@ -96,7 +96,7 @@ def main():
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN)
-    updater.bot.setWebhook('https://tuneln.herokuapp.com/' + TOKEN)
+    updater.bot.setWebhook('https://tune.herokuapp.com/' + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
