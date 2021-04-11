@@ -73,6 +73,27 @@ def start(update: Update, context: CallbackContext) -> None:
                  pass
             reply_markup = InlineKeyboardMarkup(video.keyboard)
             update.message.reply_text(f'Available *formats*:[image]({thumbnails})',reply_markup=reply_markup,parse_mode=ParseMode.MARKDOWN)
+def download_choosen_format(update,CallbackContext):
+
+    query = update.callback_query
+    if query =='3' or query =='1' or query =='2':
+        pass
+    else:
+        resolution_code, link = query.data.split(' ', 1)
+        b = updater.bot.edit_message_text(text="```Downloading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
+        time.sleep(2)
+        a = updater.bot.edit_message_text(text="```Uploading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
+
+
+        video = Video(link)
+        video.download(resolution_code)
+
+        with video.send() as files:
+            for f in files:
+                updater.bot.send_document(chat_id=query.message.chat_id,document=open(f, 'rb'),caption=f'<b>Title</b>: {t1}\n<b>Duration</b>:<code>{d1}</code>\n<b>Views</b>:<code>{v1}</code>',parse_mode=ParseMode.HTML)
+
+        time.sleep(3)
+        a.delete()
 
 def button(update: Update, context: CallbackContext) -> None:
     keyboard = [
@@ -126,7 +147,8 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start",Filters.text,start))
+    dp.add_handler(CallbackQueryHandler(download_choosen_format))
     dp.add_handler(CallbackQueryHandler(button))
     dp.add_handler(CommandHandler("help", help))
 
