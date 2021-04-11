@@ -30,7 +30,7 @@ def get_format(update, context):
     pm = update.message.text
     first_name = update.message.chat.first_name
     if pm.lower() == "/start":
-        update.message.reply_text(f'Hello <b>{first_name}</b> \n{context.bot.first_name}is a bot that helps you to download YouTube videos. It has a built-in YouTube <b>converter</b> to convert video to mp3, mp4, webm and web audio. This tool supports multiple audio and video formats. use <code>@vid</code> to search on YouTube',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
+        update.message.reply_text(f'Hello <b>{first_name}</b> \n{context.bot.first_name} is a bot that helps you to download YouTube videos. It has a built-in YouTube <b>converter</b> to convert video to mp3, mp4, webm and web audio. This tool supports multiple audio and video formats. use <code>@vid</code> to search on YouTube',parse_mode=ParseMode.HTML,reply_markup=reply_markup)
     else:
         try:
             video = Video(update.message.text, init_keyboard=True)
@@ -68,6 +68,8 @@ def download_choosen_format(update,CallbackContext):
         pass
     else:
         resolution_code, link = query.data.split(' ', 1)
+        b1 =  b = updater.bot.edit_message_text(text="Making *Http* request...",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
+        time.sleep(2)
         b = updater.bot.edit_message_text(text="```Downloading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
         time.sleep(2)
         a = updater.bot.edit_message_text(text="```Uploading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
@@ -80,7 +82,7 @@ def download_choosen_format(update,CallbackContext):
             for f in files:
                 updater.bot.send_document(chat_id=query.message.chat_id,document=open(f, 'rb'),caption=f'<b>Title</b>: {t1}\n<b>Duration</b>:<code>{d1}</code>\n<b>Views</b>:<code>{v1}</code>',parse_mode=ParseMode.HTML)
 
-        time.sleep(3)
+        time.sleep(2)
         a.delete()
 def error(update, context):
     """Log Errors caused by Updates."""
