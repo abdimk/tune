@@ -1,6 +1,3 @@
-#abdi merga
-#i would like to thank alban for his contribution
-import time
 import logging
 import json
 from youtubesearchpython import SearchVideos
@@ -70,27 +67,25 @@ def get_format(update, context):
 def download_choosen_format(update,CallbackContext):
     
     query = update.callback_query
-    if query:
-      
+    if query =='3' or query =='1' or query =='2':
+        pass
+    else:
+        bot = Updater(TOKEN)
         resolution_code, link = query.data.split(' ', 1)
-        b = update.message.reply_text(f'```Downloading```',parse_mood=ParseMode.HTML)
-        time.sleep(5)
-        b.delete()
         #b = bot.edit_message_text(text="```Downloading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
-        #time.sleep(2)
-        #a = bot.edit_message_text(text="```Uploading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
+        time.sleep(2)
+       # a = bot.edit_message_text(text="```Uploading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
 
 
         video = Video(link)
         video.download(resolution_code)
-        
+
         with video.send() as files:
             for f in files:
-                update.send_document(document=open(f, 'rb'),parse_mode=ParseMode.HTML)
-                   
+                update.send_document(chat_id=query.message.chat_id,document=open(f, 'rb'),caption=f'<b>Title</b>: {t1}\n<b>Duration</b>:<code>{d1}</code>\n<b>Views</b>:<code>{v1}</code>',parse_mode=ParseMode.HTML)
 
-        #time.sleep(3)
-        #a.delete()
+       # time.sleep(3)
+       # a.delete()
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
