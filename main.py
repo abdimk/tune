@@ -4,7 +4,7 @@ import json
 from youtubesearchpython import SearchVideos
 import time
 import os
-from telegram import InlineKeyboardMarkup,Update,ParseMode,InlineKeyboardButton
+from telegram import InlineKeyboardMarkup,Update,ParseMode,InlineKeyboardButton,ChatAction
 from telegram.ext import Updater, CallbackQueryHandler, MessageHandler, Filters
 from telegram.ext import CallbackContext,CommandHandler
 from telegram.error import BadRequest
@@ -72,6 +72,7 @@ def download_choosen_format(update,CallbackContext):
         time.sleep(2)
         b = updater.bot.edit_message_text(text="```Downloading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
         time.sleep(2)
+        updater.bot.send_chat_action(chat_id=query.message.chat_id,action=ChatAction.UPLOAD_DOCUMENT)
         a = updater.bot.edit_message_text(text="```Uploading...```",chat_id=query.message.chat_id,message_id=query.message.message_id,parse_mode=ParseMode.MARKDOWN)
 
 
@@ -87,7 +88,7 @@ def download_choosen_format(update,CallbackContext):
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
-TOKEN = "1155890554:AAEvb5R8bw2lHIprxCEZwiFmjXOB-9gLcrI"
+TOKEN = "1689056653:AAF16oo929K1hWxftpMlTtemHSk2kO1eeYo"
 updater = Updater(TOKEN)
 
 updater.dispatcher.add_handler(MessageHandler(Filters.text, get_format))
