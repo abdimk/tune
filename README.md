@@ -1,12 +1,23 @@
-# tune
+# Tuneln 
+the Fastest telegram bot to download music 
+Telegram bot witten in python-telegram-bot
+
+
+[![Python](http://forthebadge.com/images/badges/made-with-python.svg)](https://python.org)
+
+you can find it on telegram [Tunelnbot](https://t.me/Tunelnbot). 
+
+
 ## How To Host
+
 ```sh
 $ first fork the bot 
 $ change the bot token on the main.py with your bot token from bot father
 $ then create an app on heroku 
 $ then Go to deploy then connect you github account with the repository
-$ deploy done 
-```sh
+$ deploy done
+
+```
 ## Your bot will be hosted on Heroku server
 
 
