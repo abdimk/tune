@@ -88,7 +88,7 @@ def download_choosen_format(update,CallbackContext):
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
-TOKEN = "1577691543:AAE8fZQy0CNWPfB6mQagJ80qFZ0cveon_g8"
+TOKEN = "1577691543:AAEa5LaIR78_nQPAlmA8ZejdjjRE_dMmpaE"
 updater = Updater(TOKEN)
 
 updater.dispatcher.add_handler(MessageHandler(Filters.text, get_format))
